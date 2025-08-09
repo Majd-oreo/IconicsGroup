@@ -1,20 +1,29 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
 
-use App\Models\Service;
 use Illuminate\Http\Request;
+use App\Models\Service;
 
 class ServiceAdminController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $services = Service::all();
-        return view('admin.services.index', compact('services'));
+public function index(Request $request)
+{
+    $query = Service::query();
+
+    if ($request->has('search') && $request->search !== null) {
+        $search = $request->search;
+        $query->where('title', 'like', '%' . $search . '%')
+              ->orWhere('description', 'like', '%' . $search . '%');
     }
+
+    $services = $query->paginate(10);
+    return view('admin.services.index', compact('services'));
+}
 
     /**
      * Show the form for creating a new resource.
@@ -42,7 +51,7 @@ class ServiceAdminController extends Controller
 
         Service::create($validated);
 
-        return redirect()->route('services.index')->with('success', 'Service created successfully.');
+        return redirect()->route('admin.service.index')->with('success', 'Service created successfully.');
     }
 
     /**
@@ -83,7 +92,7 @@ class ServiceAdminController extends Controller
 
         $service->update($validated);
 
-        return redirect()->route('services.index')->with('success', 'Service updated successfully.');
+        return redirect()->route('admin.service.index')->with('success', 'Service updated successfully.');
     }
 
     /**
@@ -94,6 +103,6 @@ class ServiceAdminController extends Controller
         $service = Service::findOrFail($id);
         $service->delete();
 
-        return redirect()->route('services.index')->with('success', 'Service deleted successfully.');
+        return redirect()->route('admin.service.index')->with('success', 'Service deleted successfully.');
     }
 }

@@ -1,8 +1,12 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\ServiceAdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ApplicationAdminsController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +19,15 @@ use App\Http\Controllers\Admin\DashboardController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/admin/about', function () {
+    return view('Admin.about_us.index
+    ');
 });
+Route::resource('admin/application', ApplicationAdminsController::class)->names('admin.application');
+Route::resource('admin/service', ServiceAdminController::class)->names('admin.service');
+
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
 Route::get('/dashboard', function () {

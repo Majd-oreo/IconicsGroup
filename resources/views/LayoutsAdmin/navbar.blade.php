@@ -15,24 +15,33 @@
 
         <div class="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
             <div class="flex items-center md:ml-auto md:pr-4">
-                
+
             </div>
-            <ul class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
-                    <li class="flex items-center">
-                        <form method="POST" action="">
-                            @csrf
-                            <a href="" onclick="event.preventDefault(); this.closest('form').submit();" class="block px-0 py-2 text-sm font-semibold text-white transition-all ease-nav-brand">
-                                <i class="fa fa-sign-out sm:mr-1"></i>
-                                <span class="hidden sm:inline">Logout</span>
-                            </a>
-                        </form>
-                    </li>
-                    <li class="flex items-center">
-                        <a href="}" class="block px-0 py-2 text-sm font-semibold text-white transition-all ease-nav-brand">
-                            <i class="fa fa-user sm:mr-1"></i>
-                            <span class="hidden sm:inline">Sign In</span>
-                        </a>
-                    </li>
+@auth
+    <li class="flex items-center px-4 text-white">
+        <a href="{{ route('profile.edit') }}" class="flex items-center space-x-2 hover:text-gray-300">
+            <i class="fa fa-user text-white"></i>
+            <div class="flex flex-col leading-tight">
+                <span class="text-sm font-semibold">{{ Auth::user()->name }}</span>
+            </div>
+        </a>
+    </li>
+@endauth
+
+
+    <li class="flex items-center">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" class="block px-0 py-2 text-sm font-semibold text-white transition-all ease-nav-brand">
+                <i class="fa fa-sign-out sm:mr-1"></i>
+                <span class="hidden sm:inline">Logout</span>
+            </a>
+        </form>
+    </li>
+</ul>
+
+
+
 
                 <li class="flex items-center pl-4 xl:hidden">
                     <a href="javascript:;" class="block p-0 text-sm text-white transition-all ease-nav-brand" sidenav-trigger>
@@ -46,7 +55,7 @@
 
                 <li class="flex items-center px-4">
                     <a href="javascript:;" class="p-0 text-sm text-white transition-all ease-nav-brand">
-                        <i fixed-plugin-button-nav class="cursor-pointer fa fa-cog"></i>
+<i class="fa-solid fa-bell" style="color: #ffffff;"></i>
                     </a>
                 </li>
             </ul>
